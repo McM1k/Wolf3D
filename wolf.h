@@ -6,7 +6,7 @@
 /*   By: gboudrie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/25 17:27:05 by gboudrie          #+#    #+#             */
-/*   Updated: 2016/10/05 19:39:11 by gboudrie         ###   ########.fr       */
+/*   Updated: 2016/10/05 22:24:31 by gboudrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,12 @@
 # define SIZE_X 750
 # define SIZE_Y 600
 # define PI 3.14159265358979323846
+
+typedef struct	s_coor
+{
+	double		x;
+	double		y;
+}				t_coor;
 
 typedef struct	s_dot
 {
@@ -55,4 +61,5 @@ int				destroy_funct(void *param);
 void			minimap(t_env env);
 int				**reader(int fd, char *arg, int **tab);
 void			segment(t_env env, t_dot a, t_dot b);
+void			dda(t_env env);
 #endif

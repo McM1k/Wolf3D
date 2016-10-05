@@ -6,104 +6,62 @@
 /*   By: gboudrie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/15 18:48:18 by gboudrie          #+#    #+#             */
-/*   Updated: 2016/10/05 20:39:03 by gboudrie         ###   ########.fr       */
+/*   Updated: 2016/10/05 22:35:10 by gboudrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf.h"
 
-void			img_addr(t_env env, int x, int y, int color)
+static int	init_dda(t_coor *start, t_coor *step, t_coor *flag, t_env env)
 {
-	if (!(x > env.siz - 1 || x <= 0 || y <= 0
-		  || x > SIZE_X - 1 || y > SIZE_Y - 1))
-		ft_memcpy(&env.img[(x - 1) * 4 + (y - 1) * env.siz], &color, 4);
-}
-
-void			dda(t_env env)
-{
-	double		start_x;
-	double		start_y;
-	double		step_x;
-	double		step_y;
-	t_dot		flag;
-
-	flag.x = 1;
-	flag.y = 1;
-	flag.color = 0;
-	step_x = sqrt(1 + sin(env.orientation) * sin(env.orientation));
-	step_y = sqrt(1 + cos(env.orientation) * cos(env.orientation));
+	flag->x = 1;
+	flag->y = 1;
+	step->x = 1 / cos(env.orientation);
+	step->y = 1 / sin(env.orientation);
 	if (env.orientation > PI)
 	{
-		start_x = (env.pos_x - (int)(env.pos_x)) * step_x;
-		flag.x = -1;
+		start->x = (env.pos_x - (int)(env.pos_x)) * step->x;
+		flag->x = -1;
 	}
 	else
-		start_x = (env.pos_x * (-1) + 1 + (int)(env.pos_x)) * step_x;
-	if (env.orientation > (PI / 2) && env.orientation <= PI * (3 / 2))
+		start->x = (env.pos_x * (-1) + 1.0 + (int)(env.pos_x)) * step->x;
+	if (env.orientation < (PI / 2) && env.orientation >= PI * (3 / 2))
 	{
-		start_y = (env.pos_y - (int)(env.pos_y)) * step_y;
-		flag.y = -1;
+		start->y = (env.pos_y - (int)(env.pos_y)) * step->y;
+		flag->y = -1;
 	}
 	else
-		start_y = (env.pos_y * (-1) + 1 + (int)(env.pos_y)) * step_y;
-	while (flag.color == 0)
+		start->y = (env.pos_y * (-1) + 1.0 + (int)(env.pos_y)) * step->y;
+	return (0);
+}
+
+void		dda(t_env env)
+{
+	t_coor	dist;
+	t_coor	step;
+	t_coor	flag;
+	t_dot	cell;
+	int		hit;
+
+	hit = init_dda(&dist, &step, &flag, env);
+	cell.x = (int)(env.pos_x);
+	cell.y = (int)(env.pos_y);
+	while (hit == 0)
 	{
-		if (start_x < start_y)
+		if (dist.x < dist.y)
 		{
-			start_x += step_x;
-			flag.color = env.tab[((int)(cos(env.pos_y) * start_x))][((int)(cos(env.pos_x) * start_x))];
+			dist.x += step.x;
+			cell.x += flag.x;
+			img_addr(env, (cell.x + 0.5) * 20, (cell.y + 0.5) * 20, 0x000000FF);
 		}
 		else
 		{
-			start_y += step_y;
-			flag.color = env.tab[((int)(cos(env.pos_y) * start_y))][((int)(cos(env.pos_x) * start_y))];
+			dist.y += step.y;
+			cell.y += flag.y;
+			img_addr(env, (cell.x + 0.5) * 20, (cell.y + 0.5) * 20, 0x000000FF);
 		}
+		if (env.tab[cell.y][cell.x + 1] > 0)
+			hit = 1;
 	}
-		if (start_x > start_y)
-			img_addr(env, (int)(cos(env.pos_y) * start_x *20), (int)(cos(env.pos_y) * start_x *20), 0x0000FF30);
-		else
-			img_addr(env, (int)(cos(env.pos_y) * start_y *20), (int)(cos(env.pos_y) * start_y *20), 0x0000FF30);
-}
-
-static void		cursor(t_env env)
-{
-	t_dot	a;
-	t_dot	b;
-
-	a.x = (int)(env.pos_x * 20);
-	a.y = (int)(env.pos_y * 20);
-	a.color = 0x00FF0000;
-	img_addr(env, a.x + 1, a.y - 1, 0x11FF0000);
-	img_addr(env, a.x - 1, a.y + 1, 0x11FF0000);
-	img_addr(env, a.x + 1, a.y + 1, 0x11FF0000);
-	img_addr(env, a.x - 1, a.y - 1, 0x11FF0000);
-	b.x = a.x + 8 * cos(env.orientation);
-	b.y = a.y + 8 * sin(env.orientation);
-	b.color = 0x5577AA00;
-	segment(env, a, b);
-	dda(env);
-}
-
-void			minimap(t_env env)
-{
-	int		x;
-	int		y;
-
-	x = 0;
-	while (env.tab[(int)(x / 20)] != NULL)
-	{
-		y = 20;
-		while ((int)(y / 20) <= env.tab[(int)(x / 20)][0])
-		{
-			if (x % 20 == 0 || y % 20 == 0)
-				img_addr(env, y - 20, x, 0xBB4F4F4F);
-			else if (env.tab[(int)(x / 20)][(int)(y / 20)] == 1)
-				img_addr(env, y - 20, x, 0xBB7F7F7F);
-			else
-				img_addr(env, y - 20, x, 0xBBFFFFFF);
-			y++;
-		}
-		x++;
-	}
-	cursor(env);
+	img_addr(env, (cell.x + 0.5) * 20, (cell.y + 0.5) * 20, 0x0000DD30);
 }
