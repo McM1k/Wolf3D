@@ -6,7 +6,7 @@
 /*   By: gboudrie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/25 17:27:05 by gboudrie          #+#    #+#             */
-/*   Updated: 2016/09/20 16:44:28 by gboudrie         ###   ########.fr       */
+/*   Updated: 2016/10/05 19:39:11 by gboudrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <unistd.h>
 # define SIZE_X 750
 # define SIZE_Y 600
+# define PI 3.14159265358979323846
 
 typedef struct	s_dot
 {

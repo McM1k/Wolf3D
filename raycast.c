@@ -6,7 +6,7 @@
 /*   By: gboudrie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/15 18:48:18 by gboudrie          #+#    #+#             */
-/*   Updated: 2016/09/21 19:13:31 by gboudrie         ###   ########.fr       */
+/*   Updated: 2016/10/05 20:02:58 by gboudrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,22 +19,67 @@ void			img_addr(t_env env, int x, int y, int color)
 		ft_memcpy(&env.img[(x - 1) * 4 + (y - 1) * env.siz], &color, 4);
 }
 
-static t_dot	convert_dot(t_env env, int color)
+void			dda(t_env env)
 {
-	t_dot	dot;
+	double		start_x;
+	double		start_y;
+	double		step_x;
+	double		step_y;
+	t_dot		flag;
 
-	dot.x = (int)(env.pos_x * 20);
-	dot.y = (int)(env.pos_y * 20);
-	dot.color = color;
-	return (dot);
+	flag.x = 1;
+	flag.y = 1;
+	flag.color = 0;
+	step_x = sqrt(1 + sin(env.orientation) * sin(env.orientation));
+	step_y = sqrt(1 + cos(env.orientation) * cos(env.orientation));
+	if (env.orientation > PI)
+	{
+		start_x = (env.pos_x - (int)(env.pos_x)) * step_x;
+		flag.x = -1;
+	}
+	else
+		start_x = (env.pos_x * (-1) + 1 + (int)(env.pos_x)) * step_x;
+	if (env.orientation > (PI / 2) && env.orientation <= PI * (3 / 2))
+	{
+		start_y = (env.pos_y - (int)(env.pos_y)) * step_y;
+		flag.y = -1;
+	}
+	else
+		start_y = (env.pos_y * (-1) + 1 + (int)(env.pos_y)) * step_y;
+	while (flag.color == 0)
+	{
+		if (start_x < start_y)
+			start_x += step_x;
+		else
+			start_y += step_y;
+		flag.color = env.tab[((int)(env.pos_y + start_y))][((int)(env.pos_x + start_x))];
+	}
+	img_addr(env, (int)(env.pos_y + start_y *20), (int)(env.pos_x + start_x *20), 0x0000FF30);
+}
+
+static void		cursor(t_env env)
+{
+	t_dot	a;
+	t_dot	b;
+
+	a.x = (int)(env.pos_x * 20);
+	a.y = (int)(env.pos_y * 20);
+	a.color = 0x00FF0000;
+	img_addr(env, a.x + 1, a.y - 1, 0x11FF0000);
+	img_addr(env, a.x - 1, a.y + 1, 0x11FF0000);
+	img_addr(env, a.x + 1, a.y + 1, 0x11FF0000);
+	img_addr(env, a.x - 1, a.y - 1, 0x11FF0000);
+	b.x = a.x + 8 * cos(env.orientation);
+	b.y = a.y + 8 * sin(env.orientation);
+	b.color = 0x5577AA00;
+	segment(env, a, b);
+	dda(env);
 }
 
 void			minimap(t_env env)
 {
 	int		x;
 	int		y;
-	t_dot	a;
-	t_dot	b;
 
 	x = 0;
 	while (env.tab[(int)(x / 20)] != NULL)
@@ -52,13 +97,5 @@ void			minimap(t_env env)
 		}
 		x++;
 	}
-	a = convert_dot(env, 0x00EE0000);
-	img_addr(env, a.x + 1, a.y - 1, 0x00FF0000);
-	img_addr(env, a.x - 1, a.y + 1, 0x00FF0000);
-	img_addr(env, a.x + 1, a.y + 1, 0x00FF0000);
-	img_addr(env, a.x - 1, a.y - 1, 0x00FF0000);
-	b.x = a.x + 8 * cos(env.orientation);
-	b.y = a.y + 8 * sin(env.orientation);
-	b.color = 0x0077AA00;
-	segment(env, a, b);
+	cursor(env);
 }

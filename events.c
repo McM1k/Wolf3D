@@ -6,7 +6,7 @@
 /*   By: gboudrie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/15 16:26:00 by gboudrie          #+#    #+#             */
-/*   Updated: 2016/09/20 16:47:33 by gboudrie         ###   ########.fr       */
+/*   Updated: 2016/10/05 19:46:47 by gboudrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,13 @@ void	events(int keycode, t_env *env)
 	if (keycode == 53) //ESC
 		destroy_funct(env);
 	if (keycode == 123 || keycode == 124) //LEFT
+	{
 		env->orientation += (keycode == 124 ? 0.1 : -0.1);
+		if (env->orientation > 2 * PI)
+			env->orientation -= 2 * PI;
+		if (env->orientation < 0)
+			env->orientation += 2 * PI;
+	}
 	if (keycode == 125) //DOWN
 	{
 		env->pos_x -= 0.05 * cos(env->orientation);
