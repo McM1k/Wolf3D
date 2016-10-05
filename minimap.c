@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   raycast.c                                          :+:      :+:    :+:   */
+/*   minimap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gboudrie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/09/15 18:48:18 by gboudrie          #+#    #+#             */
-/*   Updated: 2016/10/05 20:39:03 by gboudrie         ###   ########.fr       */
+/*   Created: 2016/10/05 20:45:50 by gboudrie          #+#    #+#             */
+/*   Updated: 2016/10/05 20:49:32 by gboudrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,52 +17,6 @@ void			img_addr(t_env env, int x, int y, int color)
 	if (!(x > env.siz - 1 || x <= 0 || y <= 0
 		  || x > SIZE_X - 1 || y > SIZE_Y - 1))
 		ft_memcpy(&env.img[(x - 1) * 4 + (y - 1) * env.siz], &color, 4);
-}
-
-void			dda(t_env env)
-{
-	double		start_x;
-	double		start_y;
-	double		step_x;
-	double		step_y;
-	t_dot		flag;
-
-	flag.x = 1;
-	flag.y = 1;
-	flag.color = 0;
-	step_x = sqrt(1 + sin(env.orientation) * sin(env.orientation));
-	step_y = sqrt(1 + cos(env.orientation) * cos(env.orientation));
-	if (env.orientation > PI)
-	{
-		start_x = (env.pos_x - (int)(env.pos_x)) * step_x;
-		flag.x = -1;
-	}
-	else
-		start_x = (env.pos_x * (-1) + 1 + (int)(env.pos_x)) * step_x;
-	if (env.orientation > (PI / 2) && env.orientation <= PI * (3 / 2))
-	{
-		start_y = (env.pos_y - (int)(env.pos_y)) * step_y;
-		flag.y = -1;
-	}
-	else
-		start_y = (env.pos_y * (-1) + 1 + (int)(env.pos_y)) * step_y;
-	while (flag.color == 0)
-	{
-		if (start_x < start_y)
-		{
-			start_x += step_x;
-			flag.color = env.tab[((int)(cos(env.pos_y) * start_x))][((int)(cos(env.pos_x) * start_x))];
-		}
-		else
-		{
-			start_y += step_y;
-			flag.color = env.tab[((int)(cos(env.pos_y) * start_y))][((int)(cos(env.pos_x) * start_y))];
-		}
-	}
-		if (start_x > start_y)
-			img_addr(env, (int)(cos(env.pos_y) * start_x *20), (int)(cos(env.pos_y) * start_x *20), 0x0000FF30);
-		else
-			img_addr(env, (int)(cos(env.pos_y) * start_y *20), (int)(cos(env.pos_y) * start_y *20), 0x0000FF30);
 }
 
 static void		cursor(t_env env)
