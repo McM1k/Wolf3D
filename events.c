@@ -6,7 +6,7 @@
 /*   By: gboudrie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/15 16:26:00 by gboudrie          #+#    #+#             */
-/*   Updated: 2016/10/05 19:46:47 by gboudrie         ###   ########.fr       */
+/*   Updated: 2016/10/06 22:03:46 by gboudrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void	events(int keycode, t_env *env)
 		env->pos_y += 0.05 * sin(env->orientation);
 	}
 	ft_bzero(env->img, SIZE_X * SIZE_Y * 4);
+	raycast(*env);
 	minimap(*env);
 	mlx_put_image_to_window(env->mlx, env->win, env->ig, 0, 0);
 }

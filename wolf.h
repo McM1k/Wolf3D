@@ -6,7 +6,7 @@
 /*   By: gboudrie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/25 17:27:05 by gboudrie          #+#    #+#             */
-/*   Updated: 2016/10/05 22:24:31 by gboudrie         ###   ########.fr       */
+/*   Updated: 2016/10/06 22:12:57 by gboudrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,12 @@
 # include "mlx.h"
 # include "libft/libft.h"
 # include <stdlib.h>
+#include <stdio.h>
 # include <fcntl.h>
 # include <math.h>
 # include <unistd.h>
-# define SIZE_X 750
-# define SIZE_Y 600
+# define SIZE_X 1920
+# define SIZE_Y 1080
 # define PI 3.14159265358979323846
 
 typedef struct	s_coor
@@ -49,6 +50,7 @@ typedef struct	s_env
 	double		pos_x;
 	double		pos_y;
 	double		orientation;
+	double		ray;
 	int			**tab;
 }				t_env;
 
@@ -61,5 +63,6 @@ int				destroy_funct(void *param);
 void			minimap(t_env env);
 int				**reader(int fd, char *arg, int **tab);
 void			segment(t_env env, t_dot a, t_dot b);
-void			dda(t_env env);
+double			dda(t_env env);
+void			raycast(t_env env);
 #endif

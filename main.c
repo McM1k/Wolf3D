@@ -6,7 +6,7 @@
 /*   By: gboudrie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/15 16:16:43 by gboudrie          #+#    #+#             */
-/*   Updated: 2016/09/20 16:42:58 by gboudrie         ###   ########.fr       */
+/*   Updated: 2016/10/06 22:03:59 by gboudrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void		init(t_env *env, char *file)
 		}
 		x++;
 	}
-	env->orientation = 0;
+	env->orientation = PI / 2;
 }
 
 int			main(int ac, char **av)
@@ -50,6 +50,7 @@ int			main(int ac, char **av)
 		env.ig = mlx_new_image(env.mlx, SIZE_X, SIZE_Y);
 		env.img = mlx_get_data_addr(env.ig, &(env.bit), &(env.siz), &(env.end));
 		init(&env, av[1]);
+		raycast(env);
 		minimap(env);
 		mlx_put_image_to_window(env.mlx, env.win, env.ig, 0, 0);
 		mlx_hook(env.win, 6, 0, mouse_funct, &env);
