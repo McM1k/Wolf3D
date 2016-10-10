@@ -6,7 +6,7 @@
 /*   By: gboudrie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/05 20:45:50 by gboudrie          #+#    #+#             */
-/*   Updated: 2016/10/06 21:02:29 by gboudrie         ###   ########.fr       */
+/*   Updated: 2016/10/10 17:48:39 by gboudrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,11 @@ void			minimap(t_env env)
 		while ((int)(y / 20) <= env.tab[(int)(x / 20)][0])
 		{
 			if (x % 20 == 0 || y % 20 == 0)
-				img_addr(env, y - 20, x, 0x004F4F4F);
+				img_addr(env, y - 20, x, 0x554F4F4F);
 			else if (env.tab[(int)(x / 20)][(int)(y / 20)] == 1)
-				img_addr(env, y - 20, x, 0x007F7F7F);
+				img_addr(env, y - 20, x, 0x557F7F7F);
 			else
-				img_addr(env, y - 20, x, 0x00FFFFFF);
+				img_addr(env, y - 20, x, 0x55FFFFFF);
 			y++;
 		}
 		x++;
