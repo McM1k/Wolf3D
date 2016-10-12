@@ -6,7 +6,7 @@
 /*   By: gboudrie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/15 16:26:00 by gboudrie          #+#    #+#             */
-/*   Updated: 2016/10/10 17:49:26 by gboudrie         ###   ########.fr       */
+/*   Updated: 2016/10/12 21:13:21 by gboudrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,17 +36,21 @@ void	events(int keycode, t_env *env)
 	}
 	if (keycode == 125) //DOWN
 	{
-		env->pos_x -= 0.05 * cos(env->orientation);
-		env->pos_y -= 0.05 * sin(env->orientation);
+		if (env->tab[(int)(env->pos_y - 1.1 * sin(env->orientation))]
+			[(int)(env->pos_x - 1.1 * cos(env->orientation) + 1)] == 0)
+		{
+			env->pos_x -= 0.1 * cos(env->orientation);
+			env->pos_y -= 0.1 * sin(env->orientation);
 	}
 	if (keycode == 126) //UP
 	{
-		env->pos_x += 0.05 * cos(env->orientation);
-		env->pos_y += 0.05 * sin(env->orientation);
+		if (env->tab[(int)(env->pos_y)][(int)( + 1)])
+			env->pos_x += 0.1 * cos(env->orientation);
+			env->pos_y += 0.1 * sin(env->orientation);
 	}
 	ft_bzero(env->img, SIZE_X * SIZE_Y * 4);
-	minimap(*env);
 	raycast(*env);
+	minimap(*env);
 	mlx_put_image_to_window(env->mlx, env->win, env->ig, 0, 0);
 }
 
@@ -68,7 +72,7 @@ int		clic_funct(int button, int x, int y, t_env *env)
 
 int		destroy_funct(void *param)
 {
-	t_env*env;
+	t_env	*env;
 
 	env = (t_env *)param;
 	mlx_destroy_image(env->mlx, env->ig);
