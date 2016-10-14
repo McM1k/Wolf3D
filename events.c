@@ -6,7 +6,7 @@
 /*   By: gboudrie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/15 16:26:00 by gboudrie          #+#    #+#             */
-/*   Updated: 2016/10/14 17:34:34 by gboudrie         ###   ########.fr       */
+/*   Updated: 2016/10/14 19:16:05 by gboudrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,9 @@ static void	collide(int keycode, t_env *env)
 
 void		events(int keycode, t_env *env)
 {
-	if (keycode == 53) //ESC
+	if (keycode == 53)
 		destroy_funct(env);
-	if (keycode == 123 || keycode == 124) //LEFT
+	if (keycode == 123 || keycode == 124)
 	{
 		env->orientation += (keycode == 124 ? 0.1 : -0.1);
 		if (env->orientation > 2 * PI)
@@ -68,22 +68,6 @@ void		events(int keycode, t_env *env)
 	mlx_put_image_to_window(env->mlx, env->win, env->ig, 0, 0);
 }
 
-/*int		mouse_funct(int x, int y, t_env *env)
-{
-	env->curs_x = (double)x;
-	env->curs_y = (double)y;
-	return (1);
-}
-
-int		clic_funct(int button, int x, int y, t_env *env)
-{
-	if (button == 1)
-		events(69, env);
-	x = y;
-
-	return (0);
-}
-*/
 int			destroy_funct(void *param)
 {
 	t_env	*env;

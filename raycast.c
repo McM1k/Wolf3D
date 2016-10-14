@@ -6,7 +6,7 @@
 /*   By: gboudrie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/15 18:48:18 by gboudrie          #+#    #+#             */
-/*   Updated: 2016/10/14 18:27:10 by gboudrie         ###   ########.fr       */
+/*   Updated: 2016/10/14 20:31:19 by gboudrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,16 +48,26 @@ static void	init_dda(t_coor *start, t_coor *step, t_coor *flag, t_env env)
 	start->y = (start->y > 1000 ? 1000 : start->y);
 }
 
-static void	colour_walls(t_env *env, t_coor dist)
+static void	colour_walls(t_env *env, t_coor dist, t_dot cell)
 {
-	if (dist.x > (int)env->pos_x)
-		env->col = 0x00FF0000;
+	if (dist.x > dist.y)
+	{
+		if (cell.y > (int)env->pos_y)
+			env->col = 0x00FF0000;
+		else
+			env->col = 0x00FF8800;
+	}
 	else
- 		env->col = 0x00880000;
-	if (dist.y > (int)env->pos_y)
-		env->col += 0x00008800;
-	else
-		env->col += 0x0000FF00;
+	{
+		if (cell.x > (int)env->pos_x)
+			env->col = 0x0088FF00;
+		else
+			env->col = 0x00FFFF00;
+	}
+//	if ()
+//		env->col += 0x00008800;
+//	else
+//		env->col += 0x0000FF00;
 }
 
 double		dda(t_env *env)
@@ -85,8 +95,23 @@ double		dda(t_env *env)
 		if (!(env->tab[cell.y][cell.x + 1] > 0) && (dist.x = tmp.x))
 			dist.y = tmp.y;
 	}
-	colour_walls(env, dist);
+	colour_walls(env, dist, cell);
 	return ((dist.x < dist.y ? dist.x : dist.y));
+}
+
+static void	print_walls_and_stuff(t_env env, t_dot bot, t_dot top)
+{
+	int		y;
+
+	y = bot.y;
+	while (y++ <= top.y)
+		img_addr(env, bot.x, y - 1, bot.color);
+	y = 0;
+	while (y++ < bot.y)
+		img_addr(env, bot.x, y - 1, 0x007878FF);
+	y = SIZE_Y;
+	while (y-- > top.y)
+		img_addr(env, bot.x, y + 1, 0x00705020);
 }
 
 void		raycast(t_env env)
@@ -106,10 +131,8 @@ void		raycast(t_env env)
 		bot.y = (SIZE_Y / 2) - ((SIZE_Y / dist) / 2);
 		top.y = (SIZE_Y / 2) + ((SIZE_Y / dist) / 2);
 		bot.color = env.col;
-		top.color = env.col;
-		segment(env, bot, top);
+		print_walls_and_stuff(env, bot, top);
 		env.ray += add;
 		bot.x++;
-		top.x++;
 	}
 }
