@@ -6,7 +6,7 @@
 /*   By: gboudrie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/05 20:45:50 by gboudrie          #+#    #+#             */
-/*   Updated: 2016/10/10 17:48:39 by gboudrie         ###   ########.fr       */
+/*   Updated: 2016/10/14 17:38:05 by gboudrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ static void		cursor(t_env env)
 	img_addr(env, a.x - 1, a.y + 1, 0x00FF0000);
 	img_addr(env, a.x + 1, a.y + 1, 0x00FF0000);
 	img_addr(env, a.x - 1, a.y - 1, 0x00FF0000);
-	b.x = a.x + 100 * cos(env.orientation);
-	b.y = a.y + 100 * sin(env.orientation);
+	b.x = a.x + 20 * cos(env.orientation);
+	b.y = a.y + 20 * sin(env.orientation);
 	b.color = 0x0077AA00;
 	segment(env, a, b);
 }
@@ -49,11 +49,11 @@ void			minimap(t_env env)
 		while ((int)(y / 20) <= env.tab[(int)(x / 20)][0])
 		{
 			if (x % 20 == 0 || y % 20 == 0)
-				img_addr(env, y - 20, x, 0x554F4F4F);
+				img_addr(env, y - 20, x, 0x004F4F4F);
 			else if (env.tab[(int)(x / 20)][(int)(y / 20)] == 1)
-				img_addr(env, y - 20, x, 0x557F7F7F);
+				img_addr(env, y - 20, x, 0x007F7F7F);
 			else
-				img_addr(env, y - 20, x, 0x55FFFFFF);
+				img_addr(env, y - 20, x, 0x00FFFFFF);
 			y++;
 		}
 		x++;

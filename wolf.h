@@ -6,7 +6,7 @@
 /*   By: gboudrie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/25 17:27:05 by gboudrie          #+#    #+#             */
-/*   Updated: 2016/10/12 17:34:32 by gboudrie         ###   ########.fr       */
+/*   Updated: 2016/10/14 16:44:09 by gboudrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,8 @@ typedef struct	s_env
 void			img_addr(t_env env, int x, int y, int color);
 int				key_funct(int keycode, void *param);
 void			events(int keycode, t_env *env);
-int				mouse_funct(int x, int y, t_env *env);
-int				clic_funct(int button, int x, int y, t_env *env);
+//int				mouse_funct(int x, int y, t_env *env);
+//int				clic_funct(int button, int x, int y, t_env *env);
 int				destroy_funct(void *param);
 void			minimap(t_env env);
 int				**reader(int fd, char *arg, int **tab);

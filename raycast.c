@@ -6,7 +6,7 @@
 /*   By: gboudrie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/15 18:48:18 by gboudrie          #+#    #+#             */
-/*   Updated: 2016/10/12 21:01:16 by gboudrie         ###   ########.fr       */
+/*   Updated: 2016/10/14 18:27:10 by gboudrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ void		raycast(t_env env)
 	top.x = 0;
 	while (bot.x < SIZE_X)
 	{
-		dist = dda(&env);
+		dist = dda(&env) * cos(env.ray - env.orientation);
 		bot.y = (SIZE_Y / 2) - ((SIZE_Y / dist) / 2);
 		top.y = (SIZE_Y / 2) + ((SIZE_Y / dist) / 2);
 		bot.color = env.col;
@@ -112,8 +112,4 @@ void		raycast(t_env env)
 		bot.x++;
 		top.x++;
 	}
-
-//	env.ray = env.orientation;
-//	dist = dda(env);
-//	img_addr(env, (int)((env.pos_x + dist * cos(env.orientation)) * 20), (int)((env.pos_y + dist * sin(env.orientation)) * 20), 0x00FF00FF);
 }

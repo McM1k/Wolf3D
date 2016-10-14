@@ -6,7 +6,7 @@
 /*   By: gboudrie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/15 16:16:43 by gboudrie          #+#    #+#             */
-/*   Updated: 2016/10/06 22:03:59 by gboudrie         ###   ########.fr       */
+/*   Updated: 2016/10/14 16:45:42 by gboudrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,6 @@ int			main(int ac, char **av)
 		raycast(env);
 		minimap(env);
 		mlx_put_image_to_window(env.mlx, env.win, env.ig, 0, 0);
-		mlx_hook(env.win, 6, 0, mouse_funct, &env);
-		mlx_hook(env.win, 4, 0, clic_funct, &env);
 		mlx_hook(env.win, 2, 0, key_funct, &env);
 		mlx_hook(env.win, 17, 0, destroy_funct, &env);
 		mlx_loop(env.mlx);
