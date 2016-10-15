@@ -6,7 +6,7 @@
 /*   By: gboudrie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/25 17:27:05 by gboudrie          #+#    #+#             */
-/*   Updated: 2016/10/14 19:16:12 by gboudrie         ###   ########.fr       */
+/*   Updated: 2016/10/15 21:08:34 by gboudrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,7 @@ typedef struct	s_env
 	char		*img;
 	int			siz;
 	int			bit;
-	int			end;
-	double		curs_x;
-	double		curs_y;
+	int			ed;
 	double		pos_x;
 	double		pos_y;
 	double		orientation;
@@ -55,12 +53,12 @@ typedef struct	s_env
 	int			**tab;
 }				t_env;
 
+int				map(int ***tab);
 void			img_addr(t_env env, int x, int y, int color);
 int				key_funct(int keycode, void *param);
 void			events(int keycode, t_env *env);
 int				destroy_funct(void *param);
 void			minimap(t_env env);
-int				**reader(int fd, char *arg, int **tab);
 void			segment(t_env env, t_dot a, t_dot b);
 double			dda(t_env *env);
 void			raycast(t_env env);

@@ -6,7 +6,7 @@
 #    By: gboudrie <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/06/08 21:26:14 by gboudrie          #+#    #+#              #
-#    Updated: 2016/10/05 20:50:38 by gboudrie         ###   ########.fr        #
+#    Updated: 2016/10/15 20:06:55 by gboudrie         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 NAME = wolf3d
@@ -21,7 +21,7 @@ HEADER = wolf.h
 
 FLAGS = -Wall -Wextra -Werror
 
-SOURCES = main.c events.c raycast.c reader.c segment.c minimap.c
+SOURCES = main.c events.c raycast.c reader.c segment.c minimap.c map.c
 
 OBJS = $(SOURCES:.c=.o)
 

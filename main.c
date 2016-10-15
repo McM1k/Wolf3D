@@ -6,20 +6,17 @@
 /*   By: gboudrie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/15 16:16:43 by gboudrie          #+#    #+#             */
-/*   Updated: 2016/10/14 16:45:42 by gboudrie         ###   ########.fr       */
+/*   Updated: 2016/10/15 21:08:08 by gboudrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf.h"
 
-void		init(t_env *env, char *file)
+void		init(t_env *env)
 {
-	int		fd;
 	int		x;
 	int		y;
 
-	fd = open(file, O_RDONLY);
-	env->tab = reader(fd, file, env->tab);
 	x = 0;
 	env->pos_x = -1;
 	while (env->tab[x])
@@ -43,19 +40,28 @@ int			main(int ac, char **av)
 {
 	t_env	env;
 
-	if (ac == 2)
+	if (ac == 1 && (env.mlx = mlx_init()) &&
+		(env.win = mlx_new_window(env.mlx, SIZE_X, SIZE_Y, "Wolf3d")) &&
+		(env.ig = mlx_new_image(env.mlx, SIZE_X, SIZE_Y)) &&
+		(env.img = mlx_get_data_addr(env.ig, &(env.bit), &(env.siz), &(env.ed)))
+		&& (map(&(env.tab))))
+		{
+			ft_putendl("mdr1");
+			init(&env);
+			ft_putendl("mdr2");
+			raycast(env);
+			ft_putendl("mdr3");
+			minimap(env);
+			ft_putendl("mdr4");
+			mlx_put_image_to_window(env.mlx, env.win, env.ig, 0, 0);
+			mlx_hook(env.win, 2, 0, key_funct, &env);
+			mlx_hook(env.win, 17, 0, destroy_funct, &env);
+			mlx_loop(env.mlx);
+	}
+	else
 	{
-		env.mlx = mlx_init();
-		env.win = mlx_new_window(env.mlx, SIZE_X, SIZE_Y, "Wolf3d");
-		env.ig = mlx_new_image(env.mlx, SIZE_X, SIZE_Y);
-		env.img = mlx_get_data_addr(env.ig, &(env.bit), &(env.siz), &(env.end));
-		init(&env, av[1]);
-		raycast(env);
-		minimap(env);
-		mlx_put_image_to_window(env.mlx, env.win, env.ig, 0, 0);
-		mlx_hook(env.win, 2, 0, key_funct, &env);
-		mlx_hook(env.win, 17, 0, destroy_funct, &env);
-		mlx_loop(env.mlx);
+		ft_putstr("memory allocation failed, closing program ");
+		ft_putendl(av[0]);
 	}
 	return (0);
 }
