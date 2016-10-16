@@ -21,7 +21,7 @@ HEADER = wolf.h
 
 FLAGS = -Wall -Wextra -Werror
 
-SOURCES = main.c events.c raycast.c reader.c segment.c minimap.c map.c
+SOURCES = main.c events.c raycast.c segment.c minimap.c map.c
 
 OBJS = $(SOURCES:.c=.o)
 
@@ -45,32 +45,6 @@ norm :
 meteo :
 				curl http://wttr.in/Paris
 				curl http://wttr.in/Moon
-
-america great again :
-				@echo "#############################################"
-				@echo "#                                           #"
-				@echo "# ####     ##   ##  ##   ##   ##     ####   #"
-				@echo "# #####   ####  ### ##   ##   ##     #####  #"
-				@echo "# ##  ## ###### ######  ####  ##     ##  ## #"
-				@echo "# ##  ## ##  ## ######  #  #  ##     ##  ## #"
-				@echo '# ##  ## ##  ## ###### ##  ## ##     ##  ## #'
-				@echo '# ##  ## ###### ###### ###### ##     ##  ## #'
-				@echo '# #####   ####  ## ### ##  ## ##     #####  #'
-				@echo '# ####     ##   ##  ## ##  ## ###### ####   #'
-				@echo '#                                           #'
-				@echo '#############################################'
-				@echo '#                                           #'
-				@echo '#     ###### #####  ##  ## #    # #####     #'
-				@echo '#     ###### ##  ## ##  ## ##  ## ##  ##    #'
-				@echo '#       ##   ##  ## ##  ## ###### ##  ##    #'
-				@echo '#       ##   #####  ##  ## ##  ## #####     #'
-				@echo '#       ##   ###    ##  ## ##  ## ##        #'
-				@echo '#       ##   ####   ##  ## ##  ## ##        #'
-				@echo '#       ##   ## ##  ###### ##  ## ##        #'
-				@echo '#       ##   ##  ##  ####  ##  ## ##        #'
-				@echo '#                                           #'
-				@echo '#############################################'
-
 
 clean :
 				-rm -f $(OBJS)
