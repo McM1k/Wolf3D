@@ -51,14 +51,12 @@ void		events(int keycode, t_env *env)
 {
 	if (keycode == 53)
 		destroy_funct(env);
-	if (keycode == 123 || keycode == 124)
-	{
-		env->orientation += (keycode == 124 ? 0.1 : -0.1);
-		if (env->orientation > 2 * PI)
-			env->orientation -= 2 * PI;
-		if (env->orientation < 0)
-			env->orientation += 2 * PI;
-	}
+	env->orientation += (keycode == 124 ? 0.1 : void);
+	env->orientation += (keycode == 123 ? -0.1 : void);
+	if (env->orientation > 2 * PI)
+		env->orientation -= 2 * PI;
+	if (env->orientation < 0)
+		env->orientation += 2 * PI;
 	if (keycode == 125 || keycode == 126 || keycode == 13 || keycode == 1
 		|| keycode == 0 || keycode == 2)
 		collide(keycode, env);
