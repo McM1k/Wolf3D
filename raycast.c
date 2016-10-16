@@ -64,10 +64,6 @@ static void	colour_walls(t_env *env, t_coor dist, t_dot cell)
 		else
 			env->col = 0x00FFFF00;
 	}
-//	if ()
-//		env->col += 0x00008800;
-//	else
-//		env->col += 0x0000FF00;
 }
 
 double		dda(t_env *env)
