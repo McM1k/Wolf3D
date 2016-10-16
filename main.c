@@ -46,13 +46,9 @@ int			main(int ac, char **av)
 		(env.img = mlx_get_data_addr(env.ig, &(env.bit), &(env.siz), &(env.ed)))
 		&& (map(&(env.tab))))
 		{
-			ft_putendl("mdr1");
 			init(&env);
-			ft_putendl("mdr2");
 			raycast(env);
-			ft_putendl("mdr3");
 			minimap(env);
-			ft_putendl("mdr4");
 			mlx_put_image_to_window(env.mlx, env.win, env.ig, 0, 0);
 			mlx_hook(env.win, 2, 0, key_funct, &env);
 			mlx_hook(env.win, 17, 0, destroy_funct, &env);
