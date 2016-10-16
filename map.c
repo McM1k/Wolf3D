@@ -58,27 +58,19 @@ int			map(int ***tab)
 	if (!(*tab = (int **)ft_memalloc(sizeof(int *) * 12)))
 		return (0);
 	i = 0;
-	ft_putendl("1");
 	while (i < 11)
 	{
-		ft_putendl("2");
 		if (!((*tab)[i] = (int *)ft_memalloc(sizeof(int) * 12)))
 		{
-			ft_putendl("X");
 			while (--i >= 0)
 				ft_memdel((void **)(&(*tab)[i]));
 			ft_memdel((void **)(tab));
 			return (0);
 		}
 		else
-		{
-			ft_putendl("O");
 			(*tab)[i][0] = 11;
-		}
-		ft_putendl("3");
 		i++;
 	}
-	ft_putendl("4");
 	(*tab)[11] = NULL;
 	edge(tab);
 	return (1);
