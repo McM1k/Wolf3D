@@ -19,8 +19,8 @@
 # include <fcntl.h>
 # include <math.h>
 # include <unistd.h>
-# define SIZE_X 1920
-# define SIZE_Y 1080
+# define SIZE_X 1000
+# define SIZE_Y 1000
 # define PI 3.14159265358979323846
 
 typedef struct	s_coor
